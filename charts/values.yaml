@@ -1,0 +1,81 @@
+name: bullmq-dashboard
+replicaCount: 1
+image:
+  repository: ghcr.io/visiobook-esp/bullmq-dashboard-dev
+  tag: "latest"
+  pullPolicy: IfNotPresent
+
+strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxUnavailable: 0
+    maxSurge: 1
+
+revisionHistoryLimit: 3
+progressDeadlineSeconds: 60
+minReadySeconds: 10
+terminationGracePeriodSeconds: 10
+
+existingSecret: ""
+
+service:
+  type: NodePort
+  port: 80
+  nodePort: 30084
+
+istio:
+  enabled: true
+  injection: false
+
+  virtualService:
+    enabled: true
+    hosts:
+      - "bullmq-dashboard"
+      - "bullmq-dashboard.visiobook.dev"
+    gateways:
+      - mesh
+  destinationRule:
+    enabled: true
+    trafficPolicy:
+      connectionPool:
+        tcp:
+          maxConnections: 50
+        http:
+          http1MaxPendingRequests: 50
+          http2MaxRequests: 50
+          maxRequestsPerConnection: 2
+      loadBalancer:
+        simple: ROUND_ROBIN
+      outlierDetection:
+        consecutiveErrors: 5
+        interval: 30s
+        baseEjectionTime: 30s
+
+  mtls:
+    enabled: true
+    mode: ISTIO_MUTUAL
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+podLabels:
+  app: bullmq-dashboard
+  version: "latest"
+  app.kubernetes.io/name: bullmq-dashboard
+  app.kubernetes.io/version: "latest"
+  app.kubernetes.io/component: monitoring
+
+selectorLabels:
+  app: bullmq-dashboard
+  version: latest
+
+resources: {}
+
+env:
+  PORT: "3000"
+  REDIS_HOST: redis-core-project.database.svc.cluster.local
+  REDIS_PORT: "6379"
+  REDIS_PASSWORD: ""
+  REDIS_DB: "0"
+  BULL_QUEUES: "project-workflow"

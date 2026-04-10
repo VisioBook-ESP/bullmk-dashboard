@@ -1,0 +1,22 @@
+{
+  "name": "bullmq-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@bull-board/api": "^6.6.1",
+    "@bull-board/express": "^6.6.1",
+    "bullmq": "^5.69.1",
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.2",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
+  }
+}
