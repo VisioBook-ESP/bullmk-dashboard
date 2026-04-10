@@ -74,7 +74,7 @@ resources: {}
 
 env:
   PORT: "3000"
-  REDIS_HOST: redis-core-project.database.svc.cluster.local
+  REDIS_HOST: redis.visiobook-namespace.svc.cluster.local
   REDIS_PORT: "6379"
   REDIS_DB: "0"
   BULL_QUEUES: "project-workflow"
