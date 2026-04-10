@@ -25,7 +25,7 @@ service:
 
 istio:
   enabled: true
-  injection: false
+  injection: true
 
   virtualService:
     enabled: true
