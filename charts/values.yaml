@@ -21,7 +21,7 @@ existingSecret: ""
 service:
   type: NodePort
   port: 80
-  nodePort: 30084
+  nodePort: 30085
 
 istio:
   enabled: true

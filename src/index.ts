@@ -22,7 +22,7 @@ const queues = queueNames.map(
 );
 
 const serverAdapter = new ExpressAdapter();
-serverAdapter.setBasePath('/');
+serverAdapter.setBasePath('/bull');
 
 createBullBoard({
   queues: queues.map((q) => new BullMQAdapter(q)),
@@ -35,7 +35,7 @@ app.get('/healthz', (_req, res) => {
   res.send('ok');
 });
 
-app.use('/', serverAdapter.getRouter());
+app.use('/bull', serverAdapter.getRouter());
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`BullMQ Dashboard running on http://0.0.0.0:${PORT}`);
