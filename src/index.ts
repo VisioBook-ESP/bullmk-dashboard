@@ -3,6 +3,8 @@ import { createBullBoard } from '@bull-board/api';
 import { BullMQAdapter } from '@bull-board/api/bullMQAdapter';
 import { ExpressAdapter } from '@bull-board/express';
 import { Queue } from 'bullmq';
+import { natsRouter } from './nats-routes.js';
+import { startNatsMonitor, isNatsConnected } from './nats-monitor.js';
 
 const PORT = parseInt(process.env.PORT || '3000', 10);
 
@@ -32,13 +34,15 @@ createBullBoard({
 const app = express();
 
 app.get('/healthz', (_req, res) => {
-  res.send('ok');
+  res.json({ status: 'ok', nats: isNatsConnected() });
 });
 
+app.use(natsRouter);
 app.use('/bull', serverAdapter.getRouter());
 
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`BullMQ Dashboard running on http://0.0.0.0:${PORT}`);
   console.log(`Monitoring queues: ${queueNames.join(', ')}`);
   console.log(`Redis: ${connection.host}:${connection.port}/${connection.db}`);
+  void startNatsMonitor();
 });

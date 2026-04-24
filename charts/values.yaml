@@ -78,3 +78,7 @@ env:
   REDIS_PORT: "6379"
   REDIS_DB: "0"
   BULL_QUEUES: "project-workflow"
+  NATS_URL: "nats://nats.visiobook-namespace.svc.cluster.local:4222"
+  NATS_STREAM: "VISIOBOOK_PROJECT"
+  NATS_SUBJECT: "visiobook.>"
+  NATS_BUFFER_SIZE: "500"
