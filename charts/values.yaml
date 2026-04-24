@@ -2,7 +2,7 @@ name: bullmq-dashboard
 replicaCount: 1
 image:
   repository: ghcr.io/visiobook-esp/bullmq-dashboard-dev
-  tag: "sha-70ccbc8"
+  tag: "sha-f01a645"
   pullPolicy: IfNotPresent
 
 strategy:
